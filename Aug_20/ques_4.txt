@@ -1,0 +1,48 @@
+class Solution {
+    public int amountOfTime(TreeNode root, int start) {
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.offer(root);
+        TreeNode init=null;
+        Map<TreeNode,TreeNode> parent=new HashMap<>();
+        while(!queue.isEmpty()){
+            TreeNode node=queue.poll();
+            if(node.left!=null){
+                parent.put(node.left,node);
+                queue.offer(node.left);
+            }
+            if(node.right!=null){
+                parent.put(node.right,node);
+                queue.offer(node.right);
+            }
+
+            if(node.val==start){
+                init=node;
+            }
+        }
+
+        queue.offer(init);
+        int time=-1;
+        Map <Integer,Boolean> visited = new HashMap<>();
+        while(!queue.isEmpty()){
+            time++;
+            int size=queue.size();
+            for(int i=0;i<size;i++){
+                TreeNode node=queue.poll();
+                visited.put(node.val,true);
+                if(node.left!=null && visited.get(node.left.val)==null ) {
+                    queue.offer(node.left);
+                    visited.put(node.left.val,true);
+                }
+                if(node.right!=null && visited.get(node.right.val)==null){
+                    queue.offer(node.right);
+                    visited.put(node.right.val,true);
+                }
+                if(parent.get(node)!=null && visited.get(parent.get(node).val)==null ){
+                   queue.offer(parent.get(node));
+                   visited.put(parent.get(node).val,true);
+                }
+            }
+        }
+    return time;
+    }
+}
