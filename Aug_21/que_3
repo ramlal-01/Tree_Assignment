@@ -1,0 +1,18 @@
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        ArrayList<Integer> arr=new ArrayList<>();
+        
+         find(arr,root,k);
+         return arr.get(k-1);
+    }
+    static void find(ArrayList<Integer> arr,TreeNode root,int k){
+        if(root==null){
+            return ;
+        }
+        find(arr,root.left,k);
+        arr.add(root.val);
+        find(arr,root.right,k);
+       
+    }
+}
